@@ -36,6 +36,10 @@ CREATE TABLE localizaciones(
     id_pelicula INT UNSIGNED NOT NULL
 );
 
-INSERT INTO usuarios VALUES (1,'david','mora','dan@gmail.com','dmora','123','0');
+INSERT INTO usuarios VALUES (1,'david','mora','dan@gmail.com','dmora','123');
+
+SELECT * FROM usuarios;
+
+INSERT INTO peliculas VALUES (NULL,'Armageddon 2','2014','Reino Unido','assets/peliculas/armagedon.jpg');
 
 

@@ -15,16 +15,16 @@
   <div class="container">
   <h1>FIRST APLICATION CODE IGNITER</h1>
 
-  <form action="index.php/ControllerUser/confirmLogin" method="get">
+  <?php echo '<form action="'.site_url('ControllerUser/confirmLogin').'" method="get">'; ?>
       <div class="form-group">
         <label for="user">User:</label>
         <input type="text"
-          class="form-control" name="nombre" id="nombre" placeholder="Usuario">
+          class="form-control" name="nombre" id="nombre" placeholder="Usuario" required>
       </div>
       <div class="form-group">
         <label for="pass">Password:</label>
         <input type="text"
-          class="form-control" name="pass" id="pass" placeholder="Contraseña">
+          class="form-control" name="pass" id="pass" placeholder="Contraseña" required>
       </div>
       <button type="submit" class="btn btn-primary">LOGIN</button>
       </form>
