@@ -3,7 +3,7 @@
 
         public function __construct(){
             parent::__construct();
-            $this->load->model("ModelUser");
+            $this->load->model("ModelUser"); 
         }
 
         public function index(){
