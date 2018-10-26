@@ -40,6 +40,6 @@ INSERT INTO usuarios VALUES (1,'david','mora','dan@gmail.com','dmora','123');
 
 SELECT * FROM usuarios;
 
-INSERT INTO peliculas VALUES (NULL,'Armageddon 2','2014','Reino Unido','assets/peliculas/armagedon.jpg');
+INSERT INTO peliculas VALUES (1,'Armageddon 2','2014','Reino Unido','assets/peliculas/armagedon.jpg');
 
 
