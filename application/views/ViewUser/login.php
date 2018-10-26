@@ -15,7 +15,7 @@
   <div class="container">
   <h1>FIRST APLICATION CODE IGNITER</h1>
 
-  <?php echo '<form action="'.site_url('ControllerUser/confirmLogin').'" method="get">'; ?>
+  <?php echo '<form action="'.site_url('ControllerUser/confirmLogin').'" method="post">'; ?>
       <div class="form-group">
         <label for="user">User:</label>
         <input type="text"

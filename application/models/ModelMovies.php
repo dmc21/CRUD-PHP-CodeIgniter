@@ -31,7 +31,7 @@
         }
 
         public function updateMovie($id,$titulo,$anio,$pais,$imagen){
-            $this->db->query("UPDATE peliculas SET titulo = '$titulo', anio = $anio, pais = '$pais', cartel_src = '$imagen'");
+            $this->db->query("UPDATE peliculas SET titulo = '$titulo', anio = $anio, pais = '$pais', cartel_src = '$imagen' WHERE id = $id");
 
             return $this->db->affected_rows();
 

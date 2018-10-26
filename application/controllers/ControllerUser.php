@@ -5,6 +5,7 @@
             parent::__construct();
             $this->load->model("ModelUser"); 
             $this->load->model("ModelMovies");
+            $this->load->model("ModelSites");
         }
 
         public function index(){
@@ -12,8 +13,8 @@
         }
 
         public function confirmLogin(){
-           $nick =  $this->input->get("nombre");
-           $password = $this->input->get("pass");
+           $nick =  $this->input->post("nombre");
+           $password = $this->input->post("pass");
            $respuesta =  $this->ModelUser->confirmLogin($nick,$password);
 
            
@@ -21,7 +22,8 @@
           if ($respuesta == 1){
             $this->mainPanel();
         }else{
-            $this->load->view("ViewUser/login");
+            $data['view'] = "ViewUser/login";
+            $this->load->view("template_admin",$data);
           }
            
         }
@@ -29,8 +31,14 @@
         public function mainPanel() {
             $data['informacion'] = $this->ModelUser->getInfoUser();
             $data['movies'] = $this->ModelMovies->getAllMovies();
-            $this->load->view("ViewLocation/admin",$data);
+            $data['view'] = "ViewLocation/admin";
+            $data['sites'] = $this->ModelSites->getAllSites();
+            $this->load->view("template_admin",$data);
+        }
 
+        public function logout(){
+            $data['view'] = "ViewUser/login";
+            $this->load->view("template_admin",$data);
         }
     }
 

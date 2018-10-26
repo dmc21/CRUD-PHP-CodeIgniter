@@ -1,5 +1,5 @@
 <?php
-include("header_admin.php");
+include("headers/header_admin.php");
 include("$view.php");
-include("footer_admin.php");
+include("footers/footer_admin.php");
 ?>

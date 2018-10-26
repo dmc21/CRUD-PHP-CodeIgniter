@@ -5,6 +5,7 @@
             parent::__construct();
             $this->load->model("ModelMovies"); 
             $this->load->model("ModelUser");
+            $this->load->model("ModelSites");
         }
 
         public function insertMovie(){
@@ -12,7 +13,7 @@
             $anio = $this->input->get("anio");
             $pais =  $this->input->get("pais");
            $cartel = $this->input->get("imagen");
-
+           
            $res = $this->ModelMovies->insertMovie($titulo,$anio,$pais,$cartel);
 
            if($res == 1){
@@ -48,11 +49,14 @@
             }
         }
 
-        public function mainMenu($cadena){
+
+        public function mainMenu($cadena) {
             $data['msg'] = $cadena;
             $data['informacion'] = $this->ModelUser->getInfoUser();
             $data['movies'] = $this->ModelMovies->getAllMovies();
-            $this->load->view("ViewLocation/admin",$data);
+            $data['sites'] = $this->ModelSites->getAllSites();
+            $data['view'] = "ViewLocation/admin";
+            $this->load->view("template_admin",$data);
         }
     }
 
