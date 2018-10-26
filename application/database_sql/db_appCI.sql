@@ -42,4 +42,6 @@ SELECT * FROM usuarios;
 
 INSERT INTO peliculas VALUES (1,'Armageddon 2','2014','Reino Unido','assets/peliculas/armagedon.jpg');
 
+SELECT * FROM lugares;
+
 
