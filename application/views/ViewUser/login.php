@@ -1,4 +1,4 @@
-
+<?php  session_destroy(); ?>
 <!doctype html>
 <html lang="es">
   <head>

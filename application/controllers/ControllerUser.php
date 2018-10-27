@@ -6,6 +6,7 @@
             $this->load->model("ModelUser"); 
             $this->load->model("ModelMovies");
             $this->load->model("ModelSites");
+            $this->load->model("ModelLocations");
         }
 
         public function index(){
@@ -33,6 +34,7 @@
             $data['movies'] = $this->ModelMovies->getAllMovies();
             $data['view'] = "ViewLocation/admin";
             $data['sites'] = $this->ModelSites->getAllSites();
+            $data['locations'] = $this->ModelLocations->getAllLocations();
             $this->load->view("template_admin",$data);
         }
 

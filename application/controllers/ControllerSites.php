@@ -7,6 +7,7 @@ class ControllerSites extends CI_Controller {
         $this->load->model("ModelUser");
         $this->load->model("ModelSites");
         $this->load->model("ModelMovies");
+        $this->load->model("ModelLocations");
     }
 
     public function insertSite(){
@@ -19,8 +20,8 @@ class ControllerSites extends CI_Controller {
 
     if($res == 1){
         $this->mainMenu("Lugar insertado con éxito");
-    }else{
-        $this->mainMenu("Error al insertar un nuevo Lugar");
+    }else if ($res == 10){
+        $this->mainMenu("El nombre del lugar ya existe en la base de datos");
     }
     }
 
@@ -56,6 +57,7 @@ class ControllerSites extends CI_Controller {
         $data['informacion'] = $this->ModelUser->getInfoUser();
         $data['movies'] = $this->ModelMovies->getAllMovies();
         $data['sites'] = $this->ModelSites->getAllSites();
+        $data['locations'] = $this->ModelLocations->getAllLocations();
         $data['view'] = "ViewLocation/admin";
         $this->load->view("template_admin",$data);
     }

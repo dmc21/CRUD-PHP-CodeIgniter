@@ -14,9 +14,9 @@ CREATE TABLE usuarios(
 
 CREATE TABLE lugares(
 	id INT UNSIGNED PRIMARY KEY,
-    nombre VARCHAR(75) NOT NULL,
-    descripcion VARCHAR(1024) NOT NULL,
-    longitud DOUBLE NOT NULL,
+    nombre VARCHAR(75) NOT NULL, -- LUGAR DE PRODUCCION
+    descripcion VARCHAR(1024) NOT NULL, -- DESCRIPCIÓN DEL LUGAR
+    longitud DOUBLE NOT NULL, -- 
     latitud DOUBLE NOT NULL
 );
 
@@ -37,11 +37,17 @@ CREATE TABLE localizaciones(
 );
 
 INSERT INTO usuarios VALUES (1,'david','mora','dan@gmail.com','dmora','123');
-
-SELECT * FROM usuarios;
-
 INSERT INTO peliculas VALUES (1,'Armageddon 2','2014','Reino Unido','assets/peliculas/armagedon.jpg');
+INSERT INTO localizaciones VALUES(1,'La película desarrollada en Almería fue una de las mejores del mundo','../assets/image.png',3,1);
 
+SELECT peliculas.titulo, lugares.nombre, localizaciones.fotografia_src, localizaciones.descripcion FROM peliculas
+INNER JOIN localizaciones ON localizaciones.id_pelicula = peliculas.id 
+INNER JOIN lugares ON localizaciones.id_lugar = lugares.id;
+
+SELECT * FROM localizaciones;
+
+SELECT * FROM peliculas;
 SELECT * FROM lugares;
 
+SELECT * FROM peliculas INNER JOIN localizaciones;
 

@@ -1,9 +1,11 @@
 <?php 
-    class ModelMovies extends CI_Model {
+    class ModelLocations extends CI_Model{
+        
+        public function getAllLocations(){
 
-        public function getAllMovies(){
-
-            $consulta = $this->db->query("SELECT * from peliculas");
+            $consulta = $this->db->query("SELECT localizaciones.id, peliculas.titulo, lugares.nombre, localizaciones.fotografia_src, localizaciones.descripcion FROM peliculas
+            INNER JOIN localizaciones ON localizaciones.id_pelicula = peliculas.id 
+            INNER JOIN lugares ON localizaciones.id_lugar = lugares.id");
 
             $datos = array();
             for ($i=0;$i<$consulta->num_rows();$i++){
@@ -15,6 +17,7 @@
 
         public function insertMovie($titulo,$anio,$pais,$imagen){
             $consulta = $this->db->query("SELECT MAX(id) AS id from peliculas");
+
             $fila = $consulta->result_array();
             $maxID = $fila[0]['id']+1;
 
@@ -40,7 +43,8 @@
 
 
         }
-    }
 
+
+    }
 
 ?>

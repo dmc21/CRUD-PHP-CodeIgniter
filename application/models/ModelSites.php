@@ -14,14 +14,21 @@
         }
 
         public function insertSite($nombre,$descripcion,$longitud,$latitud){
-            $consulta = $this->db->query("SELECT MAX(id) AS id from lugares");
-
+            $consulta = $this->db->query("SELECT * FROM lugares WHERE nombre = '$nombre'");
             $fila = $consulta->result_array();
-            $maxID = $fila[0]['id']+1;
-
-            $this->db->query("INSERT INTO lugares VALUES ($maxID,'$nombre','$descripcion','$longitud','$latitud')");
-
-            return $this->db->affected_rows();
+            if($fila[0]['nombre'] == $nombre){
+                return 10;
+            }else{
+                $consulta = $this->db->query("SELECT MAX(id) AS id from lugares");
+                $fila = $consulta->result_array();
+                $maxID = $fila[0]['id']+1;
+                if(empty($maxID)){
+                    $this->db->query("INSERT INTO lugares VALUES (1,'$nombre','$descripcion','$longitud','$latitud')");
+                }else{
+                    $this->db->query("INSERT INTO lugares VALUES ($maxID,'$nombre','$descripcion','$longitud','$latitud')");
+                }
+                return $this->db->affected_rows();
+            }
         }
 
         public function deleteSite($id){
@@ -34,8 +41,6 @@
             $this->db->query("UPDATE lugares SET nombre = '$nombre', descripcion = '$descripcion', longitud = '$longitud', latitud = '$latitud' WHERE id = $id");
             
             return $this->db->affected_rows();
-
-
         }
     }
 
