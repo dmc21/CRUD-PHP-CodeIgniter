@@ -22,6 +22,8 @@ class ControllerSites extends CI_Controller {
         $this->mainMenu("Lugar insertado con éxito");
     }else if ($res == 10){
         $this->mainMenu("El nombre del lugar ya existe en la base de datos");
+    }else{
+        $this->mainMenu("Error al insertar un lugar");
     }
     }
 
@@ -31,6 +33,8 @@ class ControllerSites extends CI_Controller {
 
         if($res == 1){
             $this->mainMenu("Lugar eliminado con éxito");
+        }else if ($res == 10){
+            $this->mainMenu("No puedes eliminar un lugar que está publicado");
         }else{
             $this->mainMenu("Error al eliminar un nuevo Lugar");
         }
@@ -53,11 +57,12 @@ class ControllerSites extends CI_Controller {
 
 
     public function mainMenu($cadena) {
-        $data['msg'] = $cadena;
+        $data['msgSite'] = $cadena;
         $data['informacion'] = $this->ModelUser->getInfoUser();
         $data['movies'] = $this->ModelMovies->getAllMovies();
         $data['sites'] = $this->ModelSites->getAllSites();
         $data['locations'] = $this->ModelLocations->getAllLocations();
+        $data['unpublishiedMovies'] = $this->ModelMovies->unpublishiedMovies();
         $data['view'] = "ViewLocation/admin";
         $this->load->view("template_admin",$data);
     }

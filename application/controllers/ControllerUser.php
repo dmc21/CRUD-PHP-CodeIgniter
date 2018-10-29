@@ -18,8 +18,6 @@
            $password = $this->input->post("pass");
            $respuesta =  $this->ModelUser->confirmLogin($nick,$password);
 
-           
-
           if ($respuesta == 1){
             $this->mainPanel();
         }else{
@@ -32,9 +30,10 @@
         public function mainPanel() {
             $data['informacion'] = $this->ModelUser->getInfoUser();
             $data['movies'] = $this->ModelMovies->getAllMovies();
-            $data['view'] = "ViewLocation/admin";
             $data['sites'] = $this->ModelSites->getAllSites();
             $data['locations'] = $this->ModelLocations->getAllLocations();
+            $data['unpublishiedMovies'] = $this->ModelMovies->unpublishiedMovies();
+            $data['view'] = "ViewLocation/admin";
             $this->load->view("template_admin",$data);
         }
 

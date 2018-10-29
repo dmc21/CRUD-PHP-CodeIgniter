@@ -93,7 +93,7 @@
   <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
               
   <h1>Panel de administración de Lugares</h1>
-    <h2><?php if(isset($msg)) echo "$msg" ?></h2>
+    <h2><?php if(isset($msgSite)) echo "$msgSite" ?></h2>
     <h3>Estás logueado como <?php echo $informacion[0]['nombre']." ".$informacion[0]['apellidos']; ?></h3>
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#otro" data-whatever="@fat">Nuevo Lugar &nbsp; <i class="fas fa-plus"></i></button>
       <?php echo "<a href='".site_url('ControllerUser/logout')."'><button class='btn btn-danger'>Salir &nbsp; <i class='fas fa-sign-out-alt'></i></button></a>";?>
@@ -168,7 +168,7 @@
   </div>
   <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
   <h1>Panel de administración de publicaciones</h1>
-    <h2><?php if(isset($msg)) echo "$msg" ?></h2>
+    <h2><?php if(isset($msgLocations)) echo "$msgLocations" ?></h2>
       <h3>Estás logueado como <?php echo $informacion[0]['nombre']." ".$informacion[0]['apellidos']; ?></h3>
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#otro1" data-whatever="@mdo">Nueva publicación &nbsp; <i class="fas fa-plus"></i></button>
       <?php echo "<a href='".site_url('ControllerUser/logout')."'><button class='btn btn-danger'>Salir &nbsp; <i class='fas fa-sign-out-alt'></i></button></a>";?>
@@ -183,13 +183,13 @@
         </button>
       </div>
       <div class="modal-body">
-      <?php echo '<form action="'.site_url('ControllerMovies/insertMovie').'" method="get" enctype="multipart/form-data">'; ?>
+      <?php echo '<form action="'.site_url('ControllerLocations/insertLocation').'" method="get" enctype="multipart/form-data">'; ?>
           <div class="form-group">
           <label for="anio" class="col-form-label">Título:</label>
-           <select name="pelis" id="pelis" class="form-control">
+           <select name="pelis" id="pelis" class="form-control" required>
            <?php 
-            for ($i=0;$i<count($movies);$i++){
-              $info = $movies[$i];
+            for ($i=0;$i<count($unpublishiedMovies);$i++){
+              $info = $unpublishiedMovies[$i];
              echo "<option value='".$info['id']."'>".$info['titulo']."</option>";
             }
            ?>
@@ -198,7 +198,7 @@
 
           <div class="form-group">
             <label for="anio" class="col-form-label">Lugar de producción:</label>
-            <select name="sites" id="sites" class="form-control">
+            <select name="sites[]" class="form-control" multiple required>
            <?php 
             for ($i=0;$i<count($sites);$i++){
               $info = $sites[$i];
@@ -209,14 +209,19 @@
           </div>
 
           <div class="form-group">
-            <label for="pais" class="col-form-label">Imagen de publicación:</label>
-            <input type="file" class="form-control" id="pais" name="pais">
+            <label for="imagen" class="col-form-label">Imagen de publicación:</label>
+            <input type="file" class="form-control" id="imagen" name="imagen" required>
           </div>
 
           <div class="form-group">
             <label for="comment">Descripción:</label>
-            <textarea class="form-control" rows="5" id="descripcion"></textarea>
+            <textarea class="form-control" rows="5" id="descripcion" name="descripcion" required></textarea>
           </div> 
+
+          <div class='form-check'>
+                <input type='checkbox' class='form-check-input' id='check' name='check' value='s'>
+                <label class='form-check-label' for='exampleCheck1'>Publicar</label>
+              </div>
           <div class="modal-footer">
         <button type="submit" class="btn btn-primary">Insertar</button>
         <button type="reset" class="btn btn-secondary">Reestablecer</button>
@@ -232,6 +237,7 @@
           <div class="col">Lugar de producción</div>
           <div class="col">Imagen</div>
           <div class="col">Descripción</div>
+          <div class="col">Publicar (S/N)</div>
           <div class="col">Editar</div>
           <div class="col">Eliminar</div>
         </div>
@@ -239,30 +245,33 @@
             <?php 
             for($i=0;$i<count($locations);$i++){ //MODIFICAR ESTA PARTE PARA MOSTRAR LOS DATOS DE LA RELACION DE N:N (tabla localizaciones)
               $info = $locations[$i];
-              echo '<form action="'.site_url('ControllerMovies/updateMovie/'.$info['id']).'" method="get">';
+              echo '<form action="'.site_url('ControllerLocations/updateLocation/'.$info['id']).'" method="get">';
               echo "<div class='row mt-1 mb-1'>";
                 echo "<div class='col'>
                 <select name='pelis' id='pelis' class='form-control'>";
-                
-                 for ($i=0;$i<count($movies);$i++){
-                   $infor = $movies[$i];
+                 for ($k=0;$k<count($movies);$k++){
+                   $infor = $movies[$k];
                   echo "<option value='".$infor['id']."'>".$infor['titulo']."</option>";
                  }
                 
                 echo "</select>
                 </div>";
                 echo "<div class='col'>";
-                echo "<select name='sites' id='sites' class='form-control'>";
-                for ($i=0;$i<count($sites);$i++){
-                  $inform = $sites[$i];
+                echo "<select name='sites[]' id='sites' class='form-control' multiple>";
+                for ($j=0;$j<count($sites);$j++){
+                  $inform = $sites[$j];
                  echo "<option value='".$inform['id']."'>".$inform['nombre']."</option>";
                 }
                 echo "</select>
                 </div>";
                 echo "<div class='col'><input type='text' class='form-control' value='".$info["fotografia_src"]."' name='pais'></div>";
                 echo "<div class='col'> <textarea class='form-control' rows='5' id='descripcion'>".$info['descripcion']."</textarea></div>";
+                echo "<div class='form-check'>
+                <input type='checkbox' class='form-check-input' id='check' name='check' value='s'>
+                <label class='form-check-label' for='exampleCheck1'>Publicar</label>
+              </div>";
                 echo "<div class='col'><button type='submit' class='btn btn-success'>Aplicar cambios &nbsp; <i class='fas fa-retweet'></i></button></div>";
-                echo "<div class='col'><a href='".site_url('ControllerMovies/deleteMovie/'.$info['id'])."'>
+                echo "<div class='col'><a href='".site_url('ControllerLocations/deleteLocation/'.$info['id_pelicula'])."'>
                 <input type='button' class='btn btn-danger' value='Eliminar'></a></div>";
               echo "</div>";
               echo "</form>";

@@ -28,9 +28,14 @@
         }
 
         public function deleteMovie($id){
-            $this->db->query("DELETE FROM peliculas WHERE id = $id");
-
-            return $this->db->affected_rows();
+            $consulta = $this->db->query("SELECT * FROM peliculas INNER JOIN localizaciones ON peliculas.id = localizaciones.id_pelicula WHERE peliculas.id = $id;");
+            $fila = $consulta->result_array();
+            if(!empty($fila[0]['id'])){
+                return 10;
+            }else{
+                $this->db->query("DELETE FROM peliculas WHERE id = $id");
+                return $this->db->affected_rows();
+            }
         }
 
         public function updateMovie($id,$titulo,$anio,$pais,$imagen){
@@ -38,7 +43,18 @@
 
             return $this->db->affected_rows();
 
+        }
 
+        public function unpublishiedMovies(){ //metodo que devuelve el nombre de las peliculas que no se han publicado
+            $consulta = $this->db->query("SELECT peliculas.id, peliculas.titulo FROM peliculas WHERE peliculas.id NOT IN (SELECT id_pelicula FROM localizaciones);");
+
+            $datos = array();
+            for($i=0;$i<$consulta->num_rows();$i++){
+                $fila[$i] = $consulta->result_array();
+                $datos = $fila[$i];
+            }
+
+            return $datos;
         }
     }
 

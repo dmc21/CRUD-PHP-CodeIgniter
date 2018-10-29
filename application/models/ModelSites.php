@@ -14,27 +14,37 @@
         }
 
         public function insertSite($nombre,$descripcion,$longitud,$latitud){
-            $consulta = $this->db->query("SELECT * FROM lugares WHERE nombre = '$nombre'");
+            $consulta = $this->db->query("SELECT nombre FROM lugares WHERE nombre = '$nombre'");
             $fila = $consulta->result_array();
-            if($fila[0]['nombre'] == $nombre){
-                return 10;
-            }else{
-                $consulta = $this->db->query("SELECT MAX(id) AS id from lugares");
-                $fila = $consulta->result_array();
-                $maxID = $fila[0]['id']+1;
-                if(empty($maxID)){
-                    $this->db->query("INSERT INTO lugares VALUES (1,'$nombre','$descripcion','$longitud','$latitud')");
+
+                if(empty($fila[0]['nombre'])){
+                    $consulta = $this->db->query("SELECT MAX(id) AS id from lugares");
+                    $fila = $consulta->result_array();
+                    $maxID = $fila[0]['id']+1;
+                        if(empty($maxID)){
+                            $this->db->query("INSERT INTO lugares VALUES (1,'$nombre','$descripcion','$longitud','$latitud')");
+                        }else{
+                            $this->db->query("INSERT INTO lugares VALUES ($maxID,'$nombre','$descripcion','$longitud','$latitud')");
+                        }
                 }else{
-                    $this->db->query("INSERT INTO lugares VALUES ($maxID,'$nombre','$descripcion','$longitud','$latitud')");
+                    return 10;
+                    }
+                    return $this->db->affected_rows();
                 }
-                return $this->db->affected_rows();
-            }
-        }
 
         public function deleteSite($id){
-            $this->db->query("DELETE FROM lugares WHERE id = $id");
+            $consulta = $this->db->query("SELECT lugares.id FROM lugares INNER JOIN localizaciones ON lugares.id = id_lugar WHERE lugares.id = $id;");
+            $fila = $consulta->result_array();
 
-            return $this->db->affected_rows();
+            $idAEliminar = $fila[0]['id'];
+            
+            if($idAEliminar == $id){
+                return 10;
+
+            }else{
+                $this->db->query("DELETE FROM lugares WHERE id = $id");
+                return $this->db->affected_rows();
+            }
         }
 
         public function updateSite($id,$nombre,$descripcion,$longitud,$latitud){

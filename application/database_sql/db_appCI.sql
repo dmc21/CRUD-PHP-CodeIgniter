@@ -32,13 +32,14 @@ CREATE TABLE localizaciones(
 	id INT UNSIGNED PRIMARY KEY,
 	descripcion VARCHAR(1024) NOT NULL,
     fotografia_src VARCHAR(150),
+    publicada VARCHAR(1) NOT NULL,
     id_lugar INT UNSIGNED NOT NULL,
     id_pelicula INT UNSIGNED NOT NULL
 );
 
 INSERT INTO usuarios VALUES (1,'david','mora','dan@gmail.com','dmora','123');
 INSERT INTO peliculas VALUES (1,'Armageddon 2','2014','Reino Unido','assets/peliculas/armagedon.jpg');
-INSERT INTO localizaciones VALUES(1,'La película desarrollada en Almería fue una de las mejores del mundo','../assets/image.png',3,1);
+INSERT INTO localizaciones VALUES(1,'La película desarrollada en Almería fue una de las mejores del mundo','../assets/image.png','s',1,1);
 
 SELECT peliculas.titulo, lugares.nombre, localizaciones.fotografia_src, localizaciones.descripcion FROM peliculas
 INNER JOIN localizaciones ON localizaciones.id_pelicula = peliculas.id 
@@ -50,4 +51,18 @@ SELECT * FROM peliculas;
 SELECT * FROM lugares;
 
 SELECT * FROM peliculas INNER JOIN localizaciones;
+
+SELECT lugares.id FROM lugares INNER JOIN localizaciones ON lugares.id = id_lugar WHERE lugares.id = 1;
+
+SELECT * FROM lugares WHERE nombre = 'Tabernas, Almería';
+
+SELECT localizaciones.id, localizaciones.descripcion, localizaciones.fotografia_src, localizaciones.id_pelicula FROM peliculas
+            INNER JOIN localizaciones ON localizaciones.id_pelicula = peliculas.id 
+            INNER JOIN lugares ON localizaciones.id_lugar = lugares.id GROUP BY localizaciones.id_pelicula;
+            
+            DELETE FROM localizaciones WHERE id>=1;
+            
+SELECT peliculas.titulo FROM peliculas WHERE peliculas.id NOT IN (SELECT id_pelicula FROM localizaciones);
+
+
 

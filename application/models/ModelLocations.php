@@ -3,9 +3,10 @@
         
         public function getAllLocations(){
 
-            $consulta = $this->db->query("SELECT localizaciones.id, peliculas.titulo, lugares.nombre, localizaciones.fotografia_src, localizaciones.descripcion FROM peliculas
+            $consulta = $this->db->query("SELECT localizaciones.id, localizaciones.descripcion, localizaciones.fotografia_src, localizaciones.id_pelicula FROM peliculas
             INNER JOIN localizaciones ON localizaciones.id_pelicula = peliculas.id 
-            INNER JOIN lugares ON localizaciones.id_lugar = lugares.id");
+            INNER JOIN lugares ON localizaciones.id_lugar = lugares.id GROUP BY localizaciones.id_pelicula;");
+
 
             $datos = array();
             for ($i=0;$i<$consulta->num_rows();$i++){
@@ -15,25 +16,45 @@
             return $datos;
         }
 
-        public function insertMovie($titulo,$anio,$pais,$imagen){
-            $consulta = $this->db->query("SELECT MAX(id) AS id from peliculas");
+        public function insertLocation($descripcion,$fotografiaSrc,$check,$idLugar,$idPelicula){
+            $consulta = $this->db->query("SELECT MAX(id) AS id from localizaciones");
 
             $fila = $consulta->result_array();
             $maxID = $fila[0]['id']+1;
 
-            if(empty($maxID)){
-            $this->db->query("INSERT INTO peliculas VALUES (1,'$titulo','$anio','$pais','$imagen')");
+            $valor = "";
+
+            if($check == "s"){
+                $valor = "s";
             }else{
-                $this->db->query("INSERT INTO peliculas VALUES ($maxID,'$titulo','$anio','$pais','$imagen')");
+                $valor = "n";
             }
 
-            return $this->db->affected_rows();
+            if(empty($maxID)){
+            for ($i=0;$i<count($idLugar);$i++){
+                $info = $idLugar[$i];
+                $this->db->query("INSERT INTO localizaciones VALUES ($i+1,'$descripcion','$fotografiaSrc', '$valor','$info','$idPelicula')");
+            }
+        }else{
+            for ($i=0;$i<count($idLugar);$i++){
+                $info = $idLugar[$i];
+                $this->db->query("INSERT INTO localizaciones VALUES ($maxID+$i,'$descripcion','$fotografiaSrc','$valor','$info','$idPelicula')");
+            }
+        }
+        return $this->db->affected_rows();
         }
 
-        public function deleteMovie($id){
-            $this->db->query("DELETE FROM peliculas WHERE id = $id");
+        public function deleteLocation($id){
 
-            return $this->db->affected_rows();
+           $consulta = $this->db->query("SELECT * FROM localizaciones WHERE id_pelicula = $id");
+           
+            $this->db->query("DELETE FROM localizaciones WHERE id_pelicula = $id");
+
+            if($consulta->num_rows() == $this->db->affected_rows()){
+                return 0;
+            }else{
+                return 1;
+            }
         }
 
         public function updateMovie($id,$titulo,$anio,$pais,$imagen){
@@ -41,10 +62,7 @@
 
             return $this->db->affected_rows();
 
-
         }
-
-
     }
 
 ?>

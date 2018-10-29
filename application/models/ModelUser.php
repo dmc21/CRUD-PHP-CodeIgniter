@@ -4,11 +4,8 @@
 
         public function confirmLogin($nombre, $pass){
            $consulta = $this->db->query("SELECT idusuario, nick, passwd FROM usuarios WHERE nick = '$nombre' AND passwd = '$pass'");
-
            $datos =  $consulta->row_array();
-
            $this->session->idusu = $datos['idusuario'];
-
            return $consulta->num_rows();
 
         }
