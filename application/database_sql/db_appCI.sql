@@ -65,6 +65,9 @@ SELECT cartel_src FROM peliculas;
 
 DELETE FROM peliculas WHERE id = 4;
 
+SELECT peliculas.titulo, lugares.nombre, lugares.descripcion, lugares.latitud, lugares.longitud, peliculas.cartel_src, localizaciones.descripcion, localizaciones.fotografia_src
+FROM localizaciones INNER JOIN peliculas ON peliculas.id = localizaciones.id_pelicula INNER JOIN lugares ON lugares.id = localizaciones.id_lugar WHERE localizaciones.publicada = "s";
+
 
 
 

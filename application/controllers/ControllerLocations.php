@@ -15,6 +15,7 @@
             $check = $this->input->post("check");
 
             $resultado = $this->ModelLocations->upFile($_FILES['imagenLocation']['name'],"imagenLocation");
+            echo $check;
        
             if (!$resultado){
                 //*** ocurrio un error
@@ -48,7 +49,9 @@
             $fotografiaSrc = $this->input->post("imagen");
             $idLugar = $this->input->post("sites");
             $idPelicula = $this->input->post("pelis");
-            $check = $this->input->post("check");
+            $check = $this->input->post("checkUpdate");
+
+            
 
             $ruta = $this->ModelLocations->getSRC($id);
 

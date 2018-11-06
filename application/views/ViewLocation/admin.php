@@ -17,6 +17,7 @@
   <h1>Panel de administración de películas</h1>
     <h2><?php if(isset($msg)) echo "$msg" ?></h2>
     <h3>Estás logueado como <?php echo $nick[0]['nombre']; ?></h3>
+    <a role="button" class="btn btn-success" href="<?php echo "http://localhost/ejercicios_servidor/appCI/index.php/ControllerFront" ?>">Front-end</a>
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Nueva película &nbsp; <i class="fas fa-plus"></i></button>
       <?php echo "<a href='".site_url('ControllerUser/cerrar_sesion')."'><button class='btn btn-danger'>Salir &nbsp; <i class='fas fa-sign-out-alt'></i></button></a>";?>
 
@@ -283,9 +284,9 @@
                 echo "<div class='col'> <textarea class='form-control' rows='5' name='descripcion'>".$info['descripcion']."</textarea></div>";
                 echo "<div class='form-check'>";
                 if($info['publicada'] == "s"){
-                  echo "<input type='checkbox' class='form-check-input' id='check' name='check' value='s' checked>";
+                  echo "<input type='checkbox' class='form-check-input' name='checkUpdate' value='s' checked>";
                 }else{
-                  echo "<input type='checkbox' class='form-check-input' id='check' name='check' value='n'>";
+                  echo "<input type='checkbox' class='form-check-input' name='checkUpdate' value='s'>";
                 }
 
                 echo "<label class='form-check-label' for='exampleCheck1'>Publicar</label>
