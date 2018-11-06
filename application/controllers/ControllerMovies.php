@@ -1,69 +1,73 @@
 <?php 
-
-    class ControllerMovies extends CI_Controller {
+include("ControllerUser.php");
+    class ControllerMovies extends ControllerUser {
         public function __construct(){
             parent::__construct();
             $this->load->model("ModelMovies"); 
             $this->load->model("ModelUser");
-            $this->load->model("ModelSites");
-            $this->load->model("ModelLocations");
         }
 
         public function insertMovie(){
-            $titulo =  $this->input->get("titulo");
-            $anio = $this->input->get("anio");
-            $pais =  $this->input->get("pais");
-           $cartel = $this->input->get("imagen");
-           
-           $res = $this->ModelMovies->insertMovie($titulo,$anio,$pais,$cartel);
+            $titulo =  $this->input->post("titulo");
+            $anio = $this->input->post("anio");
+            $pais =  $this->input->post("pais");
+            $cartel = $this->input->post("imagenData");
 
-           if($res == 1){
-            $this->mainMenu("Película insertada con éxito");
+    
+           $resultado = $this->ModelMovies->upFile($_FILES['imagenData']['name'],"imagenData");
+       
+           if (!$resultado){
+               //*** ocurrio un error
+               $this->mainMenu("msg","Error al insertar la IMAGEN");
            }else{
-            $this->mainMenu("Error al insertar una nueva película");
+                $res = $this->ModelMovies->insertMovie($titulo,$anio,$pais,$_FILES['imagenData']['name']);
+                if($res == 1){
+                    $this->mainMenu("msg","Película insertada con éxito");
+                }else{
+                    $this->mainMenu("msg","Error al insertar una nueva película");
+                }
            }
         }
 
+
         public function deleteMovie($id){
 
-            $res = $this->ModelMovies->deleteMovie($id);
+            $ruta = $this->ModelMovies->getSRC($id);
+            if($ruta != "uploads/movies/")
+                $this->ModelMovies->deleteFile($id);
+            
 
-            if($res == 1){
-                $this->mainMenu("Película eliminada con éxito");
-            }else if($res == 10){
-                $this->mainMenu("No puedes eliminar una película publicada");
-            }else{
-                $this->mainMenu("Error al eliminar una nueva película");
-            }
-        }
+                $res = $this->ModelMovies->deleteMovie($id);
+                if($res == 10){
+                    $this->mainMenu("msg","No puedes eliminar una película publicada");
+                }else if ($res == 1){
+                    $this->mainMenu("msg","Película eliminada con éxito");
+                }else{
+                    $this->mainMenu("msg","Error al eliminar la película");
+                }
+            } 
 
         public function updateMovie($id){
-            $titulo =  $this->input->get("titulo");
-            $anio = $this->input->get("anio");
-            $pais =  $this->input->get("pais");
-           $cartel = $this->input->get("imagen");
+            $titulo =  $this->input->post("titulo");
+            $anio = $this->input->post("anio");
+            $pais =  $this->input->post("pais");
+            $srcOculto = $this->input->post("srcOculto");
 
-            $res = $this->ModelMovies->updateMovie($id, $titulo, $anio, $pais, $cartel);
+            $ruta = $this->ModelMovies->getSRC($id);
 
-            if($res == 1){
-                $this->mainMenu("Película modificada con éxito");
-            }else{
-                $this->mainMenu("Error al modificar una nueva película");
+                if($ruta != "uploads/movies/")
+                    $this->ModelMovies->deleteFile($id);
+            
+            $this->ModelMovies->deleteMovie($id);
+            $resultado = $this->ModelMovies->upFile($_FILES['imagenData']['name'],"imagenData");
+            $res = $this->ModelMovies->insertMovie($titulo,$anio,$pais,$_FILES['imagenData']['name']);
+            
+                 if($res == 1){
+                     $this->mainMenu("msg","Película actualizada con éxito");
+                 }else{
+                     $this->mainMenu("msg","Error al actualizar la película");
+                 }
             }
         }
-
-
-        public function mainMenu($cadena) {
-            $data['msg'] = $cadena;
-            $data['informacion'] = $this->ModelUser->getInfoUser();
-            $data['movies'] = $this->ModelMovies->getAllMovies();
-            $data['sites'] = $this->ModelSites->getAllSites();
-            $data['locations'] = $this->ModelLocations->getAllLocations();
-            $data['unpublishiedMovies'] = $this->ModelMovies->unpublishiedMovies();
-            $data['view'] = "ViewLocation/admin";
-            $this->load->view("template_admin",$data);
-        }
-
-    }
 
 ?>

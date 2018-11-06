@@ -1,6 +1,6 @@
 <?php 
     class ModelMovies extends CI_Model {
-
+        
         public function getAllMovies(){
 
             $consulta = $this->db->query("SELECT * from peliculas");
@@ -17,11 +17,12 @@
             $consulta = $this->db->query("SELECT MAX(id) AS id from peliculas");
             $fila = $consulta->result_array();
             $maxID = $fila[0]['id']+1;
+            $ruta = "uploads/movies/$imagen";
 
             if(empty($maxID)){
-            $this->db->query("INSERT INTO peliculas VALUES (1,'$titulo','$anio','$pais','$imagen')");
+            $this->db->query("INSERT INTO peliculas VALUES (1,'$titulo','$anio','$pais','$ruta')");
             }else{
-                $this->db->query("INSERT INTO peliculas VALUES ($maxID,'$titulo','$anio','$pais','$imagen')");
+                $this->db->query("INSERT INTO peliculas VALUES ($maxID,'$titulo','$anio','$pais','$ruta')");
             }
 
             return $this->db->affected_rows();
@@ -38,25 +39,30 @@
             }
         }
 
-        public function updateMovie($id,$titulo,$anio,$pais,$imagen){
-            $this->db->query("UPDATE peliculas SET titulo = '$titulo', anio = $anio, pais = '$pais', cartel_src = '$imagen' WHERE id = $id");
+        public function upFile($nombre_foto, $nameFile){
 
-            return $this->db->affected_rows();
+            $config['upload_path'] = "uploads/movies";
+            $config['file_name'] = $nombre_foto;
+            $config['allowed_types'] = "gif|jpg|jpeg|png";
+            $config['max_size'] = "1000000";
+            $config['max_width'] = "2000";
+            $config['max_height'] = "2000";
 
+            $this->load->library('upload', $config);
+            
+            return $this->upload->do_upload($nameFile);
         }
 
-        public function unpublishiedMovies(){ //metodo que devuelve el nombre de las peliculas que no se han publicado
-            $consulta = $this->db->query("SELECT peliculas.id, peliculas.titulo FROM peliculas WHERE peliculas.id NOT IN (SELECT id_pelicula FROM localizaciones);");
+        public function deleteFile($id){
+            $consulta = $this->db->query("SELECT cartel_src FROM peliculas WHERE id = $id");
+            $resultado = $consulta->result_array();
+            return unlink($resultado[0]["cartel_src"]);
+        }
 
-            $datos = array();
-            for($i=0;$i<$consulta->num_rows();$i++){
-                $fila[$i] = $consulta->result_array();
-                $datos = $fila[$i];
-            }
-
-            return $datos;
+        public function getSRC($id){
+            $consulta = $this->db->query("SELECT cartel_src FROM peliculas WHERE id = $id");
+            $resultado = $consulta->result_array();
+            return $resultado[0]["cartel_src"];
         }
     }
-
-
 ?>
