@@ -1,6 +1,7 @@
 <?php 
-    class ControllerUser extends CI_Controller {
 
+include("Seguridad.php");
+    class ControllerUser extends Seguridad {
         public function __construct(){
             parent::__construct();
             $this->load->model("ModelUser"); 

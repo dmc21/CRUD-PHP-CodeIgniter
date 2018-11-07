@@ -9,6 +9,7 @@
         }
 
         public function insertLocation(){
+            if($this->poder()){
             $descripcion = $this->input->post("descripcion");
             $idLugar = $this->input->post("sites");
             $idPelicula = $this->input->post("pelis");
@@ -29,8 +30,10 @@
                  }
             }
         }
+    }
 
         public function deleteLocation($id){
+            if($this->poder()){
             $ruta = $this->ModelLocations->getSRC($id);
             if($ruta != "uploads/locations/")
                 $this->ModelLocations->deleteFile($id);
@@ -43,8 +46,10 @@
                 $this->mainMenu("msgLocations","Error al eliminar la localización");
             }
         }
+    }
 
         public function updateLocation($id){
+            if($this->poder()){
             $descripcion = $this->input->post("descripcion");
             $fotografiaSrc = $this->input->post("imagen");
             $idLugar = $this->input->post("sites");
@@ -68,4 +73,5 @@
             }
         }
     }
+}
 ?>

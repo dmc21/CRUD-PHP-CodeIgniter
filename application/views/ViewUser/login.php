@@ -14,6 +14,11 @@
 
   <div class="container">
   <h1>FIRST APLICATION CODE IGNITER</h1>
+  <?php
+    if(isset($intentaEntrarMal)){
+      echo "<h1 style='color:red; text-decoration:underline;'>".$intentaEntrarMal."</h1>";
+    }
+  ?>
 
   <?php echo '<form action="'.site_url('ControllerUser/confirmLogin').'" method="post">'; ?>
       <div class="form-group">
@@ -29,6 +34,8 @@
       <button type="submit" class="btn btn-primary">LOGIN</button>
       </form>
   </div>
+
+ 
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

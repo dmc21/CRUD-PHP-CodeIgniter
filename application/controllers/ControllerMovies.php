@@ -8,6 +8,7 @@ include("ControllerUser.php");
         }
 
         public function insertMovie(){
+            if($this->poder()){
             $titulo =  $this->input->post("titulo");
             $anio = $this->input->post("anio");
             $pais =  $this->input->post("pais");
@@ -28,10 +29,11 @@ include("ControllerUser.php");
                 }
            }
         }
+    }
 
 
         public function deleteMovie($id){
-
+            if($this->poder()){
             $ruta = $this->ModelMovies->getSRC($id);
             if($ruta != "uploads/movies/")
                 $this->ModelMovies->deleteFile($id);
@@ -46,8 +48,10 @@ include("ControllerUser.php");
                     $this->mainMenu("msg","Error al eliminar la película");
                 }
             } 
+        }
 
         public function updateMovie($id){
+            if($this->poder()){
             $titulo =  $this->input->post("titulo");
             $anio = $this->input->post("anio");
             $pais =  $this->input->post("pais");
@@ -68,5 +72,6 @@ include("ControllerUser.php");
                  }
             }
         }
+    }
 
 ?>

@@ -8,6 +8,7 @@ class ControllerSites extends ControllerUser {
     }
 
     public function insertSite(){
+        if($this->poder()){
         $nombre =  $this->input->get("nombre");
         $descripcion = $this->input->get("descripcion");
         $latitud =  $this->input->get("latitud");
@@ -23,9 +24,10 @@ class ControllerSites extends ControllerUser {
         $this->mainMenu("msgSite","Error al insertar un lugar");
     }
     }
+}
 
     public function deleteSite($id){
-
+        if($this->poder()){
         $res = $this->ModelSites->deleteSite($id);
 
         if($res == 1){
@@ -36,8 +38,10 @@ class ControllerSites extends ControllerUser {
             $this->mainMenu("msgSite","Error al eliminar un nuevo Lugar");
         }
     }
+}
 
     public function updateSite($id){
+        if($this->poder()){
         $nombre =  $this->input->get("nombre");
         $descripcion = $this->input->get("descripcion");
         $latitud =  $this->input->get("latitud");
@@ -51,6 +55,7 @@ class ControllerSites extends ControllerUser {
             $this->mainMenu("msgSite","Error al modificar un nuevo Lugar");
         }
     }
+}
 }
 
 
