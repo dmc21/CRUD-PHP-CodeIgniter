@@ -10,6 +10,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="#">Localizaciones</a>
             </li>
+</ul>
     </div>
 </nav>
 
@@ -47,9 +48,10 @@
           <h5 class="card-title">'.$info['titulo'].'</h5>
           <p class="card-text">'.$info['descripcion'].'</p>
           <img class="img-fluid" src="http://localhost/ejercicios_servidor/appci/'.$info['fotografia_src'].'" style="width:300px"></img>
-        </div>
+
+          </div>
       </div>';
-    }
+        }
         ?>
     </div>
 </div>

@@ -51,7 +51,6 @@ include("ControllerUser.php");
             $titulo =  $this->input->post("titulo");
             $anio = $this->input->post("anio");
             $pais =  $this->input->post("pais");
-            $srcOculto = $this->input->post("srcOculto");
 
             $ruta = $this->ModelMovies->getSRC($id);
 
