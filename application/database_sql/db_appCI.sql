@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS db_appCI;
+/*DROP DATABASE IF EXISTS db_appCI;
 CREATE DATABASE db_appCI CHARACTER SET utf8;
-USE db_appCI;
+USE db_appCI;*/
 
 
 CREATE TABLE usuarios(
@@ -38,35 +38,6 @@ CREATE TABLE localizaciones(
 );
 
 INSERT INTO usuarios VALUES (1,'david','mora','dan@gmail.com','dmora','123');
-INSERT INTO peliculas VALUES (1,'Armageddon 2','2014','Reino Unido','assets/peliculas/armagedon.jpg');
-INSERT INTO localizaciones VALUES(1,'La película desarrollada en Almería fue una de las mejores del mundo','../assets/image.png','s',1,1);
-
-
-SELECT * FROM localizaciones;
-SELECT * FROM peliculas;
-SELECT * FROM lugares;
-
-SELECT lugares.nombre, peliculas.titulo,localizaciones.id, localizaciones.descripcion,
-	   localizaciones.fotografia_src, localizaciones.publicada, 
-        localizaciones.id_lugar, 
-       localizaciones.id_pelicula 
-       FROM
-		localizaciones INNER JOIN peliculas ON
-		localizaciones.id_pelicula = peliculas.id INNER JOIN lugares ON
-        lugares.id = localizaciones.id_lugar;
-
-
-	
-            DELETE FROM localizaciones WHERE id>=1;
-            
-SELECT peliculas.id, peliculas.titulo FROM peliculas WHERE peliculas.id NOT IN (SELECT id_pelicula FROM localizaciones);
-
-SELECT cartel_src FROM peliculas;
-
-DELETE FROM peliculas WHERE id = 4;
-
-SELECT peliculas.titulo, lugares.nombre, lugares.descripcion, lugares.latitud, lugares.longitud, peliculas.cartel_src, localizaciones.descripcion, localizaciones.fotografia_src
-FROM localizaciones INNER JOIN peliculas ON peliculas.id = localizaciones.id_pelicula INNER JOIN lugares ON lugares.id = localizaciones.id_lugar WHERE localizaciones.publicada = "s";
 
 
 

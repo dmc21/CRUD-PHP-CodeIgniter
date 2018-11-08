@@ -22,7 +22,7 @@
         $info = $movies[$i];
         echo '<div class="col">
             <div class="card text-white bg-info">
-              <img class="card-img-top mx-auto mt-2" src="http://localhost/ejercicios_servidor/appci/'.$info['cartel_src'].'" alt="img no disponible" style="width:300px">
+              <img class="card-img-top mx-auto mt-2" src="'.base_url($info['cartel_src']).'" alt="img no disponible" style="width:300px">
               <div class="card-body">
                 <h4 class="card-title">'.$info['titulo'].'</h4>
                 <p class="card-text">'.$info['pais'].','.$info['anio'].'</p>
@@ -47,7 +47,7 @@
         <div class="card-body">
           <h5 class="card-title">'.$info['titulo'].'</h5>
           <p class="card-text">'.$info['descripcion'].'</p>
-          <img class="img-fluid" src="http://localhost/ejercicios_servidor/appci/'.$info['fotografia_src'].'" style="width:300px"></img>
+          <img class="img-fluid" src="'.base_url($info['fotografia_src']).'" style="width:300px"></img>
 
           </div>
       </div>';

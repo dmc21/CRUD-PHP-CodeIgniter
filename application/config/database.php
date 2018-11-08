@@ -75,10 +75,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '',
-	'database' => 'db_appCI',
+	'hostname' => 'iesceliaciclos.org',
+	'username' => 'dmora',
+	'password' => 'DaviliyoaA_',
+	'database' => 'celiaciclos_davidMora',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
