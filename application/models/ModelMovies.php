@@ -44,9 +44,9 @@
             $config['upload_path'] = "uploads/movies";
             $config['file_name'] = $nombre_foto;
             $config['allowed_types'] = "gif|jpg|jpeg|png";
-            $config['max_size'] = "10000000";
-            $config['max_width'] = "3000";
-            $config['max_height'] = "3000";
+            $config['max_size'] = "100";
+            $config['max_width'] = "1920";
+            $config['max_height'] = "1080";
 
             $this->load->library('upload', $config);
             
