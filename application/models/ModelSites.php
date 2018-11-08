@@ -36,14 +36,15 @@
             $consulta = $this->db->query("SELECT lugares.id FROM lugares INNER JOIN localizaciones ON lugares.id = id_lugar WHERE lugares.id = $id;");
             $fila = $consulta->result_array();
 
-            $idAEliminar = $fila[0]['id'];
-            
-            if($idAEliminar == $id){
-                return 10;
+            if(isset($fila[0]['id'])){
+                $idAEliminar = $fila[0]['id'];
+                if($idAEliminar == $id){
+                    return 10;
 
-            }else{
-                $this->db->query("DELETE FROM lugares WHERE id = $id");
-                return $this->db->affected_rows();
+                }else{
+                    $this->db->query("DELETE FROM lugares WHERE id = $id");
+                    return $this->db->affected_rows();
+                }
             }
         }
 
