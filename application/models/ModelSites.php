@@ -36,9 +36,7 @@
             $consulta = $this->db->query("SELECT lugares.id FROM lugares INNER JOIN localizaciones ON lugares.id = id_lugar WHERE lugares.id = $id;");
             $fila = $consulta->result_array();
 
-            if(isset($fila[0]['id'])){
-                $idAEliminar = $fila[0]['id'];
-                if($idAEliminar == $id){
+                if(isset($fila[0]['id']) && !empty($fila[0]['id']) && $fila[0]['id'] == $id){
                     return 10;
 
                 }else{
@@ -46,7 +44,7 @@
                     return $this->db->affected_rows();
                 }
             }
-        }
+    
 
         public function updateSite($id,$nombre,$descripcion,$longitud,$latitud){
             $this->db->query("UPDATE lugares SET nombre = '$nombre', descripcion = '$descripcion', longitud = '$longitud', latitud = '$latitud' WHERE id = $id");
