@@ -20,6 +20,15 @@ include("Seguridad.php");
             } 
         }
 
+        public function onBlurUser($nombre){
+            $respuesta = $this->ModelUser->confirmName($nombre);
+            if($respuesta){
+                echo "0";
+            }else{
+                echo "1";
+            }
+        }
+
         public function confirmLogin(){
            $nick =  $this->input->post("nombre");
            $password = $this->input->post("pass");
@@ -52,6 +61,7 @@ include("Seguridad.php");
         );
         $this->session->set_userdata($usuario_data);
         $data['view'] = "ViewUser/login";
+        $data['header'] = "header_login";
         $this->load->view("template_admin",$data);
      }
         

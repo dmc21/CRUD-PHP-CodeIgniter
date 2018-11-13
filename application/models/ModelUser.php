@@ -21,6 +21,13 @@
             return $datos;
         }
 
+        public function confirmName($nombre){
+            $consulta = $this->db->query("SELECT idusuario, nick, passwd FROM usuarios WHERE nick = '$nombre'");
+            $datos =  $consulta->row_array();
+            $resultado = $consulta->row();
+            return $resultado;
+        }
+
     }
 
 
