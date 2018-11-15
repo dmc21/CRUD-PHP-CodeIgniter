@@ -16,6 +16,7 @@ include("Seguridad.php");
                 $this->mainMenu("","");
             }else{
                 $data['view'] = "ViewUser/login";
+                $data['header'] = "header_login";
                 $this->load->view("template_admin",$data);
             } 
         }
@@ -44,6 +45,7 @@ include("Seguridad.php");
              $this->mainMenu("","");
           } else {
             $data['view'] = "ViewUser/login";
+            $data['header'] = "header_login";
             $this->load->view("template_admin",$data);
           }
        }
@@ -78,6 +80,7 @@ include("Seguridad.php");
 
         public function logout(){
             $data['view'] = "ViewUser/login";
+            $data['header'] = "header_login";
             $this->load->view("template_admin",$data);
         }
     }
